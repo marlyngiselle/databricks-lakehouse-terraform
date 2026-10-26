@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sensor-telemetry-lakehouse"
+version = "0.1.0"
+description = "Transformation logic and tests for the sensor telemetry medallion pipeline."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Giselle Da Costa" }]
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6", "pyyaml>=6.0"]
+spark = ["pyspark>=3.5"]
+
+[tool.setuptools.packages.find]
+where = ["bundles/sensor_telemetry/src"]
+include = ["sensor_telemetry*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["bundles/sensor_telemetry/src"]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = ["spark: needs a local pyspark installation (skipped when absent)"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["bundles/sensor_telemetry/src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["sensor_telemetry"]
