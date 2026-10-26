@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">Governed lakehouse on Azure Databricks</title>
+  <desc id="desc">Three stacked layers in bronze, silver and gold over a navy to blue gradient.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1f4d"/>
+      <stop offset="1" stop-color="#2456c8"/>
+    </linearGradient>
+    <linearGradient id="bronze" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8a5a2b"/>
+      <stop offset="1" stop-color="#d4904f"/>
+    </linearGradient>
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8e9bb0"/>
+      <stop offset="1" stop-color="#e3e8f0"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b8892a"/>
+      <stop offset="1" stop-color="#f4d27a"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="300" fill="url(#bg)"/>
+  <rect width="1200" height="300" fill="url(#grid)"/>
+
+  <!-- landing stream: dots flowing into the stack -->
+  <g fill="#9cc0ff">
+    <circle cx="700" cy="232" r="3" opacity="0.35"/>
+    <circle cx="730" cy="226" r="3" opacity="0.5"/>
+    <circle cx="760" cy="220" r="3.5" opacity="0.65"/>
+    <circle cx="790" cy="214" r="4" opacity="0.8"/>
+  </g>
+
+  <!-- medallion stack: isometric slabs, bronze at the bottom, gold on top -->
+  <g transform="translate(830 0)">
+    <g opacity="0.95">
+      <path d="M0 210 L150 170 L300 210 L150 250 Z" fill="url(#bronze)"/>
+      <path d="M0 210 L150 250 L150 268 L0 228 Z" fill="#6b4320"/>
+      <path d="M300 210 L150 250 L150 268 L300 228 Z" fill="#7d5026"/>
+    </g>
+    <g opacity="0.95">
+      <path d="M20 160 L150 125 L280 160 L150 195 Z" fill="url(#silver)"/>
+      <path d="M20 160 L150 195 L150 211 L20 176 Z" fill="#6e7a8e"/>
+      <path d="M280 160 L150 195 L150 211 L280 176 Z" fill="#7f8ba0"/>
+    </g>
+    <g>
+      <path d="M45 112 L150 84 L255 112 L150 140 Z" fill="url(#gold)"/>
+      <path d="M45 112 L150 140 L150 155 L45 127 Z" fill="#94701f"/>
+      <path d="M255 112 L150 140 L150 155 L255 127 Z" fill="#a67d24"/>
+    </g>
+    <!-- governance ring around the stack -->
+    <ellipse cx="150" cy="176" rx="190" ry="118" fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2" stroke-dasharray="4 8"/>
+  </g>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" fill="#ffffff">
+    <text x="72" y="118" font-size="46" font-weight="700" letter-spacing="-0.5">Governed Lakehouse</text>
+    <text x="72" y="166" font-size="26" font-weight="400" fill-opacity="0.88">Azure Databricks, Unity Catalog and Terraform</text>
+    <g font-size="16" font-weight="600" letter-spacing="2">
+      <text x="72" y="222" fill="#d4904f">BRONZE</text>
+      <text x="162" y="222" fill="#e3e8f0">SILVER</text>
+      <text x="241" y="222" fill="#f4d27a">GOLD</text>
+    </g>
+    <text x="72" y="252" font-size="15" fill-opacity="0.6">private network  ·  least privilege grants  ·  cost guardrails  ·  CI on every change</text>
+  </g>
+</svg>
