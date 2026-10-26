@@ -1,0 +1,58 @@
+resources:
+  jobs:
+    sensor_telemetry:
+      name: sensor-telemetry-hourly
+      max_concurrent_runs: 1
+      timeout_seconds: 3600
+
+      schedule:
+        quartz_cron_expression: "0 5 * * * ?"
+        timezone_id: UTC
+        pause_status: ${var.schedule_pause_status}
+
+      email_notifications:
+        on_failure:
+          - ${var.alert_email}
+        on_duration_warning_threshold_exceeded:
+          - ${var.alert_email}
+
+      health:
+        rules:
+          - metric: RUN_DURATION_SECONDS
+            op: GREATER_THAN
+            value: 1800
+
+      tags:
+        Workload: sensor-telemetry
+        DataProduct: telemetry
+
+      job_clusters:
+        - job_cluster_key: quality
+          new_cluster:
+            policy_id: ${var.job_policy_id}
+            apply_policy_default_values: true
+            spark_version: 15.4.x-scala2.12
+            node_type_id: Standard_D4ds_v5
+            autoscale:
+              min_workers: 1
+              max_workers: 2
+
+      tasks:
+        - task_key: refresh_medallion
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.sensor_telemetry.id}
+            full_refresh: false
+
+        - task_key: freshness_check
+          depends_on:
+            - task_key: refresh_medallion
+          job_cluster_key: quality
+          spark_python_task:
+            python_file: ../src/jobs/freshness_check.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --max-lag-minutes
+              - ${var.freshness_max_lag_minutes}
+          max_retries: 1
+          min_retry_interval_millis: 120000

@@ -1,0 +1,22 @@
+resources:
+  pipelines:
+    sensor_telemetry:
+      name: sensor-telemetry-medallion
+      catalog: ${var.catalog}
+      schema: bronze
+      serverless: true
+      photon: true
+      channel: CURRENT
+      continuous: false
+      development: false
+      libraries:
+        - file:
+            path: ../src/pipelines/bronze.py
+        - file:
+            path: ../src/pipelines/silver.py
+        - file:
+            path: ../src/pipelines/gold.py
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src
+        lakehouse.catalog: ${var.catalog}
+        lakehouse.landing_path: ${var.landing_path}

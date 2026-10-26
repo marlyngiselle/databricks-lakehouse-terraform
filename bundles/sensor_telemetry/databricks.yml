@@ -1,0 +1,54 @@
+# Databricks Asset Bundle: sensor telemetry medallion pipeline.
+# Validate with `databricks bundle validate -t dev` from this directory.
+bundle:
+  name: sensor_telemetry
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: Unity Catalog catalog the pipeline publishes to.
+    default: lakehouse_dev
+  landing_path:
+    description: Folder where producers drop sensor CSV files (landing external location).
+    default: abfss://landing@stlakehousedeva1b2.dfs.core.windows.net/sensor_telemetry
+  job_policy_id:
+    description: ID of the job compute cluster policy (output job_compute_policy_id of infra/unity-catalog).
+    default: "0000000000000000"
+  alert_email:
+    description: Mailbox that receives failure and SLA alerts.
+    default: data-platform-alerts@example.com
+  freshness_max_lag_minutes:
+    description: Gold data older than this fails the freshness check.
+    default: "90"
+  schedule_pause_status:
+    description: PAUSED or UNPAUSED. Schedules only run where they are unpaused.
+    default: PAUSED
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-0000000000000000.0.azuredatabricks.net
+    variables:
+      catalog: lakehouse_dev
+
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-1111111111111111.1.azuredatabricks.net
+      root_path: /Workspace/Shared/.bundle/${bundle.name}/${bundle.target}
+    run_as:
+      # Application ID of the pipeline service principal (placeholder).
+      service_principal_name: 22222222-2222-2222-2222-222222222222
+    permissions:
+      - group_name: data_engineers
+        level: CAN_VIEW
+      - group_name: platform_admins
+        level: CAN_MANAGE
+    variables:
+      catalog: lakehouse_prod
+      landing_path: abfss://landing@stlakehouseprodc3d4.dfs.core.windows.net/sensor_telemetry
+      schedule_pause_status: UNPAUSED
