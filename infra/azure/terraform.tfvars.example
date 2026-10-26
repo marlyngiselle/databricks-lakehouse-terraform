@@ -1,0 +1,23 @@
+# Copy to terraform.tfvars and adjust. Every value below is a placeholder.
+project       = "lakehouse"
+environment   = "dev"
+location      = "westeurope"
+unique_suffix = "a1b2"
+cost_center   = "cc-0000"
+
+vnet_address_space             = ["10.20.0.0/22"]
+host_subnet_prefix             = "10.20.0.0/24"
+container_subnet_prefix        = "10.20.1.0/24"
+private_endpoint_subnet_prefix = "10.20.2.0/27"
+
+enable_private_link_backend  = false
+enable_private_link_frontend = false
+
+# Egress IP of the machine or runner that applies this stack (documentation range).
+allowed_ip_ranges = ["203.0.113.10"]
+
+key_vault_admin_object_ids = ["00000000-0000-0000-0000-000000000000"]
+
+tags = {
+  owner = "data-platform-team"
+}
